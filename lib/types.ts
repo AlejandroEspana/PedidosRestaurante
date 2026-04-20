@@ -12,6 +12,7 @@ export interface Product {
   basePrice: number;
   image: string;
   category: 'main' | 'side' | 'drink' | 'dessert';
+  isActive?: boolean; // Controls visibility in the POS
   defaultIngredientIds: string[];
   allowedIngredientIds: string[]; // Ingredients that can be added / modified
 }

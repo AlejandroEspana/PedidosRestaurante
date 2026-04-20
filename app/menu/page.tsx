@@ -3,14 +3,14 @@
 import { useRestaurant } from "@/lib/store";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { UtensilsCrossed, Info, Plus, Minus } from "lucide-react";
+import { UtensilsCrossed, Info, Plus, Minus, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Product } from "@/lib/types";
 
 export default function MenuPage() {
-  const { products, ingredients, addProductToOrder, calculateItemPrice } = useRestaurant();
+  const { products, ingredients, toggleProductActive, calculateItemPrice } = useRestaurant();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [ingredientQuantities, setIngredientQuantities] = useState<Record<string, number>>({});
 
@@ -164,20 +164,31 @@ export default function MenuPage() {
                 </div>
               </div>
 
-              <div className="bg-muted/40 p-6 flex items-center justify-between border-t border-border/50">
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">Total Price</div>
-                  <div className="text-3xl font-bold text-primary transition-all tracking-tight animate-in slide-in-from-bottom-2">
-                    ${currentPrice.toFixed(2)}
-                  </div>
+              <div className="bg-muted/40 p-6 flex flex-col gap-4 border-t border-border/50">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="font-semibold text-muted-foreground uppercase tracking-wider">POS Status</span>
+                  {selectedProduct.isActive !== false ? (
+                    <Badge className="bg-emerald-500/20 text-emerald-600 hover:bg-emerald-500/30 border-none">Visible in POS</Badge>
+                  ) : (
+                    <Badge variant="secondary" className="text-muted-foreground border-none">Hidden from POS</Badge>
+                  )}
                 </div>
-                <div className="flex gap-3">
-                  <Button variant="outline" onClick={() => setSelectedProduct(null)}>Cancel</Button>
-                  <Button className="shadow-lg shadow-primary/25" onClick={() => {
-                    addProductToOrder(selectedProduct, 1, ingredientQuantities);
-                    setSelectedProduct(null);
-                  }}>
-                    Add to POS <UtensilsCrossed className="ml-2 h-4 w-4" />
+                
+                <div className="flex gap-3 mt-2">
+                  <Button variant="outline" className="flex-1" onClick={() => setSelectedProduct(null)}>Close</Button>
+                  <Button 
+                    variant={selectedProduct.isActive !== false ? "destructive" : "default"} 
+                    className="flex-1 shadow-lg" 
+                    onClick={() => {
+                      toggleProductActive(selectedProduct.id);
+                      setSelectedProduct(null);
+                    }}
+                  >
+                    {selectedProduct.isActive !== false ? (
+                      <>Hide from POS <EyeOff className="ml-2 h-4 w-4" /></>
+                    ) : (
+                      <>Show in POS <Eye className="ml-2 h-4 w-4" /></>
+                    )}
                   </Button>
                 </div>
               </div>

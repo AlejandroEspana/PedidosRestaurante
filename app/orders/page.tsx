@@ -60,7 +60,7 @@ export default function OrdersPage() {
             <h2 className="font-semibold text-lg flex items-center gap-2"><ChevronRight className="h-4 w-4"/> Quick Add Products</h2>
             <ScrollArea className="flex-1 rounded-xl pr-4">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pb-4">
-                {products.map(product => (
+                {products.filter(p => p.isActive !== false).map(product => (
                   <Card 
                     key={product.id} 
                     className="cursor-pointer hover:border-primary/50 transition-all hover:bg-muted/30 border-border/40 group overflow-hidden"

@@ -44,8 +44,9 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'Truffle Parmesan Fries',
     description: 'Crispy french fries tossed in truffle oil, parsley, and fresh parmesan.',
     basePrice: 5.99,
-    image: 'https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=600&q=100',
+    image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=100', // Fixed fries image
     category: 'side',
+    isActive: true,
     defaultIngredientIds: [],
     allowedIngredientIds: ['ing-bacon', 'ing-cheddar'],
   }
@@ -64,13 +65,14 @@ interface RestaurantContextType extends RestaurantState {
   removeOrderItem: (orderItemId: string) => void;
   submitOrder: () => void;
   calculateItemPrice: (product: Product, ingredientQuantities: Record<string, number>) => number;
+  toggleProductActive: (productId: string) => void;
 }
 
 const RestaurantContext = createContext<RestaurantContextType | undefined>(undefined);
 
 export function RestaurantProvider({ children }: { children: React.ReactNode }) {
   const [ingredients] = useState(MOCK_INGREDIENTS);
-  const [products] = useState(MOCK_PRODUCTS);
+  const [products, setProducts] = useState(MOCK_PRODUCTS);
   const [orders, setOrders] = useState<Order[]>([]);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
 
@@ -165,6 +167,15 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
     }
   };
 
+  const toggleProductActive = (productId: string) => {
+    setProducts(prev => prev.map(p => {
+      if (p.id === productId) {
+        return { ...p, isActive: p.isActive === false ? true : false };
+      }
+      return p;
+    }));
+  };
+
   return (
     <RestaurantContext.Provider value={{
       ingredients,
@@ -175,7 +186,8 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
       updateOrderItemIngredientQty,
       removeOrderItem,
       submitOrder,
-      calculateItemPrice
+      calculateItemPrice,
+      toggleProductActive
     }}>
       {children}
     </RestaurantContext.Provider>
