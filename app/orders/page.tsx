@@ -54,9 +54,9 @@ export default function OrdersPage() {
       </div>
 
       {activeTab === 'pos' ? (
-        <div className="grid lg:grid-cols-3 gap-6 flex-1 min-h-0 h-full">
+        <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6 flex-1 lg:min-h-0 lg:h-full">
           {/* Quick Add Menu */}
-          <div className="lg:col-span-2 flex flex-col gap-4 overflow-hidden h-full">
+          <div className="lg:col-span-2 flex flex-col gap-4 lg:overflow-hidden h-[450px] lg:h-full">
             <h2 className="font-semibold text-lg flex items-center gap-2"><ChevronRight className="h-4 w-4"/> Quick Add Products</h2>
             <ScrollArea className="flex-1 rounded-xl pr-4">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pb-4">
@@ -86,7 +86,7 @@ export default function OrdersPage() {
           </div>
 
           {/* Current Ticket */}
-          <div className="h-full">
+          <div className="h-[600px] lg:h-full">
             <Card className="h-full flex flex-col shadow-xl shadow-primary/5 border-primary/20 bg-card/60 backdrop-blur-xl relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-blue-500" />
               <CardHeader className="pb-4 bg-muted/10 border-b border-border/50">

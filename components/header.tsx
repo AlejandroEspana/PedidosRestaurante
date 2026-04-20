@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTheme } from "next-themes";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -23,9 +24,15 @@ export function Header() {
           <SheetContent side="left" className="w-[280px]">
             <h2 className="font-bold text-lg mb-4 mt-2">GourmetOS</h2>
             <nav className="flex flex-col gap-2">
-              <Button variant="ghost" className="justify-start">Dashboard</Button>
-              <Button variant="ghost" className="justify-start">Orders & POS</Button>
-              <Button variant="ghost" className="justify-start">Menu Configurator</Button>
+              <Link href="/">
+                <Button variant="ghost" className="w-full justify-start">Dashboard</Button>
+              </Link>
+              <Link href="/orders">
+                <Button variant="ghost" className="w-full justify-start">Orders & POS</Button>
+              </Link>
+              <Link href="/menu">
+                <Button variant="ghost" className="w-full justify-start">Menu Configurator</Button>
+              </Link>
             </nav>
           </SheetContent>
         </Sheet>
